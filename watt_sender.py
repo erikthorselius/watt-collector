@@ -1,6 +1,5 @@
 import ssl, json, zmq, os, logging, sys, sched, time, signal 
 from urllib.request import Request, urlopen 
-from datetime import datetime, timedelta
 
 def signal_handler(signal, frame):
   print('You pressed Ctrl+C! Shutting down')
@@ -23,9 +22,6 @@ socket.connect(socket_address)
 def send(message):
   logging.debug('Send value: %s to server',message)
   socket.send_json(message)
-
-def convert_time(unix_time):
-    return datetime.fromtimestamp(unix_time).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
 def get_data_from_api():
   q = Request(api_url)
