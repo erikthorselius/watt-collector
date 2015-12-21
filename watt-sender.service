@@ -1,0 +1,22 @@
+[Unit]
+Description=Run watt-sender service
+Requires=docker.service
+
+[Service]
+Restart=always
+#RestartSec=60s
+EnvironmentFile=/home/core/watt-sender.env
+ExecStartPre=-/usr/bin/docker kill watt-sender
+ExecStartPre=-/usr/bin/docker rm watt-sender
+ExecStartPre=/usr/bin/docker pull regius/watt-sender
+ExecStart=/usr/bin/bash -c "env;  \
+   /usr/bin/docker run --rm --name watt-sender \
+  -e WATT_SOCKET=$WATT_SOCKET \
+  -e WATT_API_URL=$WATT_API_URL \
+  -e WATT_API_TOKEN=$WATT_API_TOKEN \
+  -e WATT_REPORT_TIME=10 \
+	regius/watt-sender"
+ExecStop=/usr/bin/docker stop watt-sender
+
+[Install]
+WantedBy=local.target

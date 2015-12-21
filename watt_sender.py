@@ -25,7 +25,7 @@ def send(message):
   socket.send_json(message)
 
 def convert_time(unix_time):
-    return datetime.fromtimestamp(unix_time).strftime('%Y-%m-%dT%H:%M:%SZ')
+    return datetime.fromtimestamp(unix_time).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
 def get_data_from_api():
   q = Request(api_url)
@@ -37,10 +37,10 @@ def get_data_from_api():
 
 def report(sc):
   filterd_elements = [element for element in get_data_from_api() if element[1] !='nan']
-  messages = [{'name':'Electrical sensor',
-      'type':'external_api', 
-      'datetime':convert_time(element[0]), 
-      'value':element[1]} for element in filterd_elements]
+  messages = [{"name":"Electrical sensor",
+      "type":"external_api", 
+      "unix_timestamp":element[0], 
+      "value":element[1]} for element in filterd_elements]
   [send(message) for message in messages]
   sc.enter(report_time, 1, report, (sc,))
 
