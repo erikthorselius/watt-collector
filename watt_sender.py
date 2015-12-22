@@ -35,6 +35,7 @@ def report(sc):
   filterd_elements = [element for element in get_data_from_api() if element[1] !='nan']
   messages = [{"name":"Electrical sensor",
       "type":"external_api", 
+      "sensor":"electricity",
       "unix_timestamp":element[0], 
       "value":element[1]} for element in filterd_elements]
   [send(message) for message in messages]
