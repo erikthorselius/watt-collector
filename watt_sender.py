@@ -10,9 +10,9 @@ signal.signal(signal.SIGINT, signal_handler)
 
 logging.basicConfig(format='%(asctime)s %(message)s',level=logging.DEBUG)
 report_time = float(os.getenv('WATT_REPORT_TIME', 3600))
-socket_address = os.getenv('WATT_SOCKET')
-api_url = os.getenv('WATT_API_URL')
-api_token = os.getenv('WATT_API_TOKEN')
+socket_address = os.getenv('WATT_SOCKET').strip()
+api_url = os.getenv('WATT_API_URL').strip()
+api_token = os.getenv('WATT_API_TOKEN').strip()
 
 context = zmq.Context()
 socket = context.socket(zmq.PUSH)
