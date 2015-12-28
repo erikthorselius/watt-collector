@@ -8,13 +8,13 @@ Restart=always
 EnvironmentFile=/home/core/watt-sender.env
 ExecStartPre=-/usr/bin/docker kill watt-sender
 ExecStartPre=-/usr/bin/docker rm watt-sender
-ExecStartPre=/usr/bin/docker pull regius/watt-sender
+ExecStartPre=/usr/bin/docker pull regius/watt-sender:1.0
 ExecStart=/usr/bin/bash -c "/usr/bin/docker run --rm --name watt-sender \
   -e WATT_SOCKET=$WATT_SOCKET \
   -e WATT_API_URL=$WATT_API_URL \
   -e WATT_API_TOKEN=$WATT_API_TOKEN \
   -e WATT_REPORT_TIME=900 \
-	regius/watt-sender"
+	regius/watt-sender:1.0"
 ExecStop=/usr/bin/docker stop watt-sender
 
 [Install]
