@@ -18,15 +18,14 @@ api_url = os.getenv('WATT_API_URL').strip()
 api_token = os.getenv('WATT_API_TOKEN').strip()
 
 context = zmq.Context()
-socket = context.socket(zmq.PUSH)
+socket = context.socket(zmq.PUB)
 logging.info('Connected to address %s', socket_address)
 socket.connect(socket_address)
 
 
 def send(message):
     logging.debug('Send value: %s to server', message)
-    socket.send_json(message)
-
+    socket.send_multipart([b'sensor', bytes(json.dumps(message),'utf8')])
 
 def get_data_from_api():
     q = Request(api_url)
